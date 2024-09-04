@@ -1,0 +1,150 @@
+html {
+    height: 100%;
+    width: 100%;
+  }
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  
+  body{
+    min-height: 100vh;
+    background-color: #d9e0e2;
+    font-family: "Trebuchet MS";
+  }
+  
+  nav{
+    background-color: #a4bcc4;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  nav li{
+    height: 50px;
+  }
+  
+  nav a{
+    height: 100%;
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #1f222b;
+    transition: color 0.3s, opacity 0.3s;
+  }
+  
+  nav a:hover{
+    color: floralwhite;
+    opacity: 0.5;
+    border-radius: 5px;
+  }
+  
+  nav li:first-child{
+    margin-right: auto;
+  }
+  .options{
+    ul {
+        list-style-type: none; /* Removes the bullet points */
+        padding: 0; /* Removes the default padding */
+        margin: 0; /* Removes the default margin */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}   
+
+
+
+
+
+html {
+    height: 100%;
+    width: 100%;
+  }
+  *{
+    margin: 0;
+    padding: 0;
+  }
+  
+  body{
+    min-height: 100vh;
+    background-color: #d9e0e2;
+    font-family: "Trebuchet MS";
+  }
+  
+  nav{
+    background-color: #a4bcc4;
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  nav ul{
+    width: 100%;
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+  
+  nav li{
+    height: 50px;
+  }
+  
+  nav a{
+    height: 100%;
+    padding: 0 30px;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    color: #1f222b;
+    transition: color 0.3s, opacity 0.3s;
+  }
+  
+  nav a:hover{
+    color: floralwhite;
+    opacity: 0.5;
+    border-radius: 5px;
+  }
+  
+  nav li:first-child{
+    margin-right: auto;
+  }
+  
+  .login{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    }
+    label{
+      margin: 10px 0;
+      font-weight: bold;
+      color: #1f222b;
+    }
+    input{
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      margin-bottom: 20px;
+    }
+    input[type="submit"]{
+      background-color: #a4bcc4;
+      color: #1f222b;
+      cursor: pointer;
+    }
+    input[type="submit"]:hover {
+      background-color: floralwhite;
+      opacity: 0.9;
+      border-radius: 5px;
+      border-color: #1f222b;
+    }
+    p{
+      padding-bottom: 20px;
+    }
+
