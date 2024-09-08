@@ -1,3 +1,9 @@
+<h1>Home</h1>
+
+
+
+
+
 <div class="options">
     <ul>
         <li><a href="upcoming.html">VIEW UPCOMING SHIFTS</a></li>
