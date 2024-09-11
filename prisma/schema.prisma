@@ -1,0 +1,33 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./db.sqlite"  // Direct path to SQLite file
+}
+
+
+model Employees { 
+  employeeid    Int     @id @default(autoincrement()) 
+  forename  String 
+  surname   String 
+  email String  @unique // Unique constraint 
+  contactNumber Int 
+  password String @unique 
+  shifts    Shifts[] // One-to-many relationship with Shifts 
+} 
+
+ 
+
+model Shifts { 
+  id         Int      @id @default(autoincrement())  // Primary key 
+  startTime  DateTime // Start time of the shift 
+  endTime    DateTime // End time of the shift 
+  date       DateTime // Date of the shift 
+  employeeid Int      // Foreign key 
+  employee   Employees @relation(fields: [employeeid], references: [employeeid]) // Foreign key relation 
+} 
