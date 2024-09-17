@@ -1,36 +1,52 @@
 <script>
-
-function loginform() {
-    document.querySelector('form').addEventListener('submit', (event) => {
-    event.preventDefault(); // prevent form from submitting
-    let username = document.querySelector('#username').value;
-    let password = document.querySelector('#password').value;
-  
-    if (username === 'myusername' && password === 'mypassword') {
-        document.getElementById("message").innerText = "Login successful!";
-      window.location.href = "dashboard.html";
-      } else {
-        document.getElementById("message").innerText = "Incorrect username or password";
-         return false;
-       }
-    });
-  }
-  
-  document.addEventListener("DOMContentLoaded", function() {
-    loginform();
-  });
-
-// cannot use document in svelte, use on mount
-
+let showForm = null;
+function showLogin(){
+  showForm = 'login';
+}
+function showRegister(){
+  showForm = 'register';
+}
+function original(){
+  showForm = null;
+}
 </script>
 
-<h1>Login</h1>
 
-<form class="login">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username" required>
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required>
-    <p id="message"></p>
-    <input type="submit" value="Login">
-</form>
+<div>
+  {#if showForm === null}
+      <div>
+          <button on:click={showLogin}>Login</button>
+          <button on:click={showRegister}>Register</button>
+      </div>
+  {:else if showForm === 'login'}
+      <form method="POST">
+          <h2>Login</h2>
+          <label>
+              Email
+              <input name="email" type="email" required>
+          </label>
+          <label>
+              Password
+              <input name="password" type="password" required>
+          </label>
+          <button type="submit">Log in</button>
+      </form>
+  {:else if showForm === 'register'}
+      <form method="POST">
+        <h2>Register</h2>
+          <label>
+              Email
+              <input name="email" type="email" required>
+          </label>
+          <label>
+              Password
+              <input name="password" type="password" required>
+          </label>
+          <label>
+              Confirm Password
+              <input name="confirm_password" type="password" required>
+          </label>
+          <button type="submit">Register</button>
+      </form>
+  {/if}
+</div>
