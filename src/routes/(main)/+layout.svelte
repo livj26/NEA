@@ -12,6 +12,7 @@
     export let currentPage; /*`export` makes `currentPage` available to other modules, allowing them to access this value.*/
     let isLandingPage = currentPage === '/'; /*checks if page is landingpage - first page on the site*/
     let isLogin = currentPage === '/login';
+    let isRegister = currentPage === '/register';
 
   </script>
   
@@ -20,9 +21,17 @@
       <ul>
         <li><a href="/">ROTASMART</a></li>
         <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
       </ul>
     </nav>
 {:else if !isLogin}
+  <nav>
+    <ul>
+      <li><a href="/">ROTASMART</a></li>
+      <li><a href="/Register">Login</a></li>
+    </ul>
+  </nav>
+{:else if !isRegister}
   <nav>
     <ul>
       <li><a href="/">ROTASMART</a></li>
