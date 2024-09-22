@@ -15,7 +15,12 @@ export const actions = {
 
         // 3. Check if user exists and the password matches
         if (user && user.password === password) {
-            throw redirect(302, '/dashboard');
+            // 4. Check if user is an admin
+            if (user.isAdmin) {
+                throw redirect(302, '/admindash'); // Redirect to admin dashboard
+            } else {
+                throw redirect(302, '/dashboard'); // Redirect to regular dashboard
+            }
         }else{
             const errorMessage = 'Incorrect password. Please try again.';
                 // Redirect to the login page with an error message in query parameters

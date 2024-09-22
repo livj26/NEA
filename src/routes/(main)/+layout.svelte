@@ -42,9 +42,9 @@
     <nav>
         <ul>
             <li><h1>ROTASMART</h1></li> 
-            <li><a href="/dashboard">Admin</a></li>
-            <li><a href="availability.html">Availability</a></li>
-            <li><a href="shifts.html">Shifts</a></li>
+            <li><a href="/admindash">Admin</a></li>
+            <li><a href="/availability">Availability</a></li>
+            <li><a href="/Shifts">Shifts</a></li>
         </ul>
     </nav>
 {/if}
