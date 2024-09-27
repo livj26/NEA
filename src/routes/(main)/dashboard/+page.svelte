@@ -1,14 +1,33 @@
-<h1>Home</h1>
-
-
-
-
-
-<div class="options">
+<script context="module">
+    import { parse } from 'cookie';
+    import { redirect } from '@sveltejs/kit';
+  
+    export async function load({ request }) {
+      const cookies = request.headers.get('cookie') || '';
+      const parsedCookies = parse(cookies);
+      
+      const isLoggedIn = Boolean(parsedCookies.session);
+      
+      if (!isLoggedIn) {
+        throw redirect(302, '/login');
+      }
+  
+      return {};
+    }
+</script>
+  
+<nav>
     <ul>
-        <li><a href="upcoming.html">VIEW UPCOMING SHIFTS</a></li>
-        <li><a href="past.html">VIEW PAST SHIFTS</a></li>
-        <li><a href="availability.html">AVAILABILITY</a></li>
-        <li><a href="admin.html">ADMIN PAGE</a></li>
+      <li><h1>ROTASMART</h1></li>
+      <li><a href="/shifts/past">Past Shifts</a></li>
+      <li><a href="/shifts/upcoming">Upcoming Shifts</a></li>
+      <li><a href="/availability">Availability</a></li>
     </ul>
-</div>
+  </nav>
+
+  
+
+
+<form method="POST" action="?/logout"> <!-- Use POST method -->
+    <button type="submit">Logout</button>
+</form>
