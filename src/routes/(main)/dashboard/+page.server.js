@@ -1,31 +1,50 @@
-import { PrismaClient } from '@prisma/client'; 
-import { redirect } from '@sveltejs/kit'; 
+// +page.server.js
+import { PrismaClient } from '@prisma/client';
+import { redirect } from '@sveltejs/kit';
 import { parse } from 'cookie';
 
 const prisma = new PrismaClient();
 
-export const actions = {
-    logout: async ({ request }) => {
-        const cookies = request.headers.get('cookie') || '';
-        const parsedCookies = parse(cookies);
-        const sessionToken = parsedCookies.session;
+async function fetchUserData(employeeId) {
+    try {
+        const user = await prisma.employees.findUnique({
+            where: { employeeid: employeeId },
+            select: {
+                employeeid: true,
+                forename: true,
+                surname: true,
+                email: true,
+                isAdmin: true
+            }
+        });
 
-        if (sessionToken) {
-            await prisma.sessions.deleteMany({
-                where: { token: sessionToken }
-            });
+        if (!user) {
+            throw new Error('User not found');
         }
 
-        // Clear the session cookie
-        const cookieOptions = {
-            path: '/',
-            maxAge: -1 // Set maxAge to -1 to delete the cookie
-        };
-
-        const headers = new Headers();
-        headers.append('Set-Cookie', `session=; ${Object.entries(cookieOptions).map(([key, value]) => `${key}=${value}`).join('; ')}`);
-
-        // Redirect to the login page
-        throw redirect(302, '/login', { headers });
+        return user;
+    } catch (error) {
+        console.error('Error fetching user data:', error);
+        return null;
     }
-};
+}
+
+export async function load({ request }) {
+    const cookieHeader = request.headers.get('cookie');
+    const cookies = parse(cookieHeader || '');
+
+    if (!cookies.employeeId) {
+        console.log('User not authenticated, redirecting to login');
+        throw redirect(302, '/login');
+    }
+
+    const employeeId = cookies.employeeId;
+    const userData = await fetchUserData(employeeId);
+
+    if (!userData) {
+        console.log('User data not found, redirecting to login');
+        throw redirect(302, '/login');
+    }
+
+    return { userData };
+}

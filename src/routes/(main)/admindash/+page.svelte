@@ -1,34 +1,16 @@
-<script context="module">
-    import { parse } from 'cookie';
-    import { redirect } from '@sveltejs/kit';
-  
-    export async function load({ request }) {
-      const cookies = request.headers.get('cookie') || '';
-      const parsedCookies = parse(cookies);
-      
-      const isLoggedIn = Boolean(parsedCookies.session);
-      
-      if (!isLoggedIn) {
-        throw redirect(302, '/login');
-      }
-  
-      return {};
-    }
+<script>
+  import {page} from '$app/stores';
+  $: console.log('Component:', $page.data); 
 </script>
-  
+
 <nav>
-    <ul>
+  <ul>
       <li><h1>ROTASMART</h1></li>
       <li><a href="/rota">Rota</a></li>
       <li><a href="/editdb">Edit Database</a></li>
       <li><a href="/shifts">Shifts</a></li>
-    </ul>
-  </nav>
-  
-<h2>Welcome to the Admin Dashboard</h2>
-  
+  </ul>
+</nav>
 
-
-<form method="POST" action="?/logout"> <!-- Use POST method -->
-    <button type="submit">Logout</button>
-</form>
+<h1>Welcome to Admin Dashboard</h1>
+<p>Your employee ID is: {$page.data.employeeid}</p> 

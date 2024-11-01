@@ -7,28 +7,34 @@ async function main() {
     // Hashing password for John Doe
     const johnHashedPassword = await bcrypt.hash('password123', 10); // Hash John's password
 
-    // Update the isAdmin field and hashed password for John Doe
-    const updatedUser = await prisma.employees.update({
-        where: { email: 'john.doe@example.com' },
+    // Creating John Doe with admin rights
+    const johnUser = await prisma.employees.create({
         data: {
-            isAdmin: true,
+            forename: 'John',
+            surname: 'Doe',
+            email: 'john.doe@example.com',
             password: johnHashedPassword, // Ensure the password is hashed
+            isAdmin: true, // Set admin status
+            // createdAt and updatedAt will be set automatically
         },
     });
-    console.log('Updated User:', updatedUser);
+    console.log('Created User:', johnUser);
 
     // Hashing password for Jane Smith
     const janeHashedPassword = await bcrypt.hash('password456', 10); // Hash Jane's password
 
-    const user2 = await prisma.employees.update({
-        where: { email: 'jane.smith@example.com' },
+    // Creating Jane Smith
+    const janeUser = await prisma.employees.create({
         data: {
             forename: 'Jane',
             surname: 'Smith',
-            password: janeHashedPassword, // Update to hashed password
+            email: 'jane.smith@example.com',
+            password: janeHashedPassword, // Ensure the password is hashed
+            isAdmin: false, // Set admin status to false
+            // createdAt and updatedAt will be set automatically
         },
     });
-    console.log({ updatedUser, user2 });
+    console.log('Created User:', janeUser);
 }
 
 main()
