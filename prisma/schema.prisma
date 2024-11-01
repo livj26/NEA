@@ -11,7 +11,7 @@ datasource db {
 }
 
 model employees {
-  employeeid String   @id @default(cuid())
+  employeeid Int      @id @default(autoincrement())
   forename   String
   surname    String
   email      String   @unique
@@ -26,15 +26,15 @@ model shifts {
   startTime  DateTime
   endTime    DateTime
   date       DateTime
-  employeeid String
+  employeeid Int
   employee   employees @relation(fields: [employeeid], references: [employeeid])
 }
 
 model sessions {
-  id         String   @id @default(cuid())
+  id Int      @id @default(autoincrement())
   token      String   @unique
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  employeeid String
+  employeeid Int
   employee   employees @relation(fields: [employeeid], references: [employeeid])
 }
