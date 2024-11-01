@@ -26,3 +26,4 @@ db.sqlite
 # Prisma migrations
 /prisma/migrations/
 prisma/migrations/migration_lock.toml
+prisma/migrations/migration_lock.toml
