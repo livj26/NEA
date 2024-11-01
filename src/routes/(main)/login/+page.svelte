@@ -1,6 +1,5 @@
 <script>
   import { onMount } from 'svelte';
-
   let errorMessage = '';
 
   onMount(() => {
@@ -8,6 +7,9 @@
       errorMessage = urlParams.get('error') || '';
   });
 </script>
+
+
+
 
 <nav>
   <ul>

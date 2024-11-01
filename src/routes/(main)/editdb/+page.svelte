@@ -28,8 +28,3 @@
   
 
   
-
-
-<form method="POST" action="?/logout"> <!-- Use POST method -->
-    <button type="submit">Logout</button>
-</form>

@@ -14,3 +14,7 @@
 
 <h1>Welcome to Admin Dashboard</h1>
 <p>Your employee ID is: {$page.data.employeeid}</p> 
+
+<form method="post" action="/logout">
+  <button type="submit">Logout</button>
+</form>
