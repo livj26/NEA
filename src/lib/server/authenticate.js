@@ -2,21 +2,34 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+
 export async function authenticate(cookies) {
     const token = cookies.get("auth-token");
-    if (!token) return null; // Return null if no token is found
+    if (!token) return null;
 
     try {
-        // Query the database for the session using the token
+        // Query the session and related employee information
         const session = await prisma.sessions.findUnique({
             where: { token },
-            select: { employeeid: true } // Only select the employeeid
+            select: {
+                employeeid: true,
+                employee: {
+                    select: {
+                        isAdmin: true
+                    }
+                }
+            }
         });
-        console.log("Authenticate:", session.employeeid)
-        // Return the employee ID or null if session is not found
-        return session ? session.employeeid : null; // Return employeeid or null if not found
+        console.log('Employee info: ', session);
+        // Check if session and related employee record exist
+        if (!session) return null;
+
+        return {
+            employeeid: session.employeeid,
+            isAdmin: session.employee.isAdmin
+        };
     } catch (error) {
-        console.error('Error retrieving session:', error); // Log the error for debugging
-        return null; // Return null in case of an error
+        console.error("Error retrieving session:", error);
+        return null;
     }
 }
