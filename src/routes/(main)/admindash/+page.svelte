@@ -8,7 +8,7 @@
       <li><h1>ROTASMART</h1></li>
       <li><a href="/rota">Rota</a></li>
       <li><a href="/editdb">Edit Database</a></li>
-      <li><a href="/shifts">Shifts</a></li>
+      <li><a href="/adminshifts">Employee Shifts</a></li>
   </ul>
 </nav>
 

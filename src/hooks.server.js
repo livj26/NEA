@@ -9,10 +9,12 @@ export const handle = async ({ event, resolve }) => {
     console.log("Hooks:", event.locals);
 
     // Define protected routes
-    const isAdminRoute = ['/rota', '/editdb', '/admindash'].some(path =>
+    const isAdminRoute = ['/rota', '/editdb', '/admindash', 'adminshifts', 'employees'].some(path =>
         event.url.pathname.startsWith(path)
     );
-    const isUserRoute = event.url.pathname.startsWith("/dashboard");
+    const isUserRoute = ['/dashboard', '/shifts', '/availability'].some(path =>
+        event.url.pathname.startsWith(path)
+    );
 
     // Redirect non-authenticated users for protected routes
     if ((isAdminRoute || isUserRoute) && !auth) {

@@ -1,41 +1,47 @@
-// src/routes/register/+server.js
-import { PrismaClient } from '@prisma/client';
-import bcrypt from 'bcrypt';
+import { redirect } from "@sveltejs/kit";
+import { PrismaClient } from "@prisma/client";
+import bcrypt from "bcrypt";
 
 const prisma = new PrismaClient();
 
 export const actions = {
     register: async ({ request }) => {
         const formData = await request.formData();
-        const forename = formData.get('forename');
-        const surname = formData.get('surname');
-        const email = formData.get('email');
-        const password = formData.get('password');
+        const forename = formData.get("forename");
+        const surname = formData.get("surname");
+        const email = formData.get("email");
+        const password = formData.get("password");
 
-        // Check if the user already exists
-        const existingUser = await prisma.employees.findUnique({ where: { email } });
+        console.log('Registration attempt:', { forename, surname, email }); // Debugging: Log registration attempt
+
+        // Check if email already exists
+        const existingUser = await prisma.employees.findUnique({
+            where: { email }
+        });
+
         if (existingUser) {
-            return { error: 'Email is already in use. Please choose another one.' };
+            console.log('Email already in use:', email); // Debugging: Log if email exists
+            throw redirect(302, `/register?error=${encodeURIComponent("Email already in use")}`);
         }
 
-        // Hash the password
+        // Hash the password before storing
         const hashedPassword = await bcrypt.hash(password, 10);
+        console.log('Hashed Password:', hashedPassword); // Debugging: Log the hashed password
 
-        // Create a new user
+        // Create the new user
         await prisma.employees.create({
             data: {
                 forename,
                 surname,
                 email,
                 password: hashedPassword,
-            },
+                isAdmin: false, // Default to non-admin user
+            }
         });
 
-        // Optionally, you could create a JWT here if desired
-        // const token = jwt.sign({ email }, JWT_SECRET, { expiresIn: '1d' });
+        console.log('User created successfully:', { forename, surname, email }); // Debugging: Log successful user creation
 
-        // Return success message
-        return { success: true }; // or redirect logic as needed
+        // Redirect to login after successful registration
+        throw redirect(302, "/login");
     }
 };
-

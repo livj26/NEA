@@ -8,9 +8,6 @@
   });
 </script>
 
-
-
-
 <nav>
   <ul>
     <li><a href="/">ROTASMART</a></li>
@@ -20,7 +17,7 @@
 </nav>
 
 {#if errorMessage}
-  <p class="error">{errorMessage}</p> <!-- Display the error message -->
+  <p class="error">{errorMessage}</p> 
 {/if}
 
 <div class="login">
