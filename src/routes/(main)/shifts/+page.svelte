@@ -8,7 +8,7 @@
     // Function to update the filter by changing the query parameter
     function updateFilter(event) {
         const selectedFilter = event.target.value;
-        window.location.search = `?filter=${selectedFilter}`; // Reloads the page with the new filter
+        window.location.search = `?filter=${selectedFilter}`; 
     }
 </script>
 

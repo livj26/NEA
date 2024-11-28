@@ -34,9 +34,9 @@ export const actions = {
                     },
                 });
 
-                
                 cookies.set("auth-token", sessionToken, cookieOptions);
                 cookies.set("employeeId", user.employeeid, cookieOptions);
+
                 // Redirect based on user role
                 throw redirect(302, user.isAdmin ? "/admindash" : "/dashboard");
             }
@@ -46,3 +46,5 @@ export const actions = {
         throw redirect(302, `/login?error=${encodeURIComponent("Incorrect email or password")}`);
     },
 };
+
+

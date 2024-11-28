@@ -1,22 +1,20 @@
 <script>
     import { page } from '$app/stores';
-
     // Reactive values from server data
     $: shifts = $page.data.shifts;
     $: filterOption = $page.data.filterOption;
     $: employees = $page.data.employees;
     $: employeeFilter = $page.data.employeeFilter;
 
-    // Function to update the filter by changing the query parameter
     function updateFilter(event) {
         const selectedFilter = event.target.value;
-        window.location.search = `?filter=${selectedFilter}&employee=${employeeFilter}`; // Reloads the page with the new filter
+        window.location.search = `?filter=${selectedFilter}&employee=${employeeFilter}`; 
     }
 
     // Function to update employee filter
     function updateEmployeeFilter(event) {
         const selectedEmployee = event.target.value;
-        window.location.search = `?filter=${filterOption}&employee=${selectedEmployee}`; // Reloads the page with the new filter
+        window.location.search = `?filter=${filterOption}&employee=${selectedEmployee}`; 
     }
 </script>
 

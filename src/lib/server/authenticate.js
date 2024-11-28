@@ -2,7 +2,6 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-
 export async function authenticate(cookies) {
     const token = cookies.get("auth-token");
     if (!token) return null;

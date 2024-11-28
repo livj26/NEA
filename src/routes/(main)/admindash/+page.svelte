@@ -1,6 +1,7 @@
 <script>
   import {page} from '$app/stores';
   $: console.log('Component:', $page.data); 
+
 </script>
 
 <nav>
@@ -13,7 +14,6 @@
 </nav>
 
 <h1>Welcome to Admin Dashboard</h1>
-<p>Your employee ID is: {$page.data.employeeid}</p> 
 
 <form method="post" action="/logout">
   <button type="submit">Logout</button>

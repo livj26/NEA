@@ -5,7 +5,7 @@
   onMount(() => {
       const urlParams = new URLSearchParams(window.location.search);
       errorMessage = urlParams.get('error') || '';
-      console.log('Error Message on Mount:', errorMessage); // Debugging: Log the error message
+      console.log('Error Message on Mount:', errorMessage); 
   });
 </script>
 

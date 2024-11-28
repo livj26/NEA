@@ -33,5 +33,6 @@ export const POST = async ({ cookies }) => {
     console.log("Employee ID cookie 'employeeId' deleted.");
 
     // Redirect to the login page
-    throw redirect(302, "/login");
+    throw redirect(301, "/login");
 };
+
