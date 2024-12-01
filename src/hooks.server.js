@@ -26,6 +26,11 @@ export const handle = async ({ event, resolve }) => {
         throw redirect(307, "/dashboard"); // Redirect to a non-admin page
     }
 
+    // Redirect admin users trying to access non-admin routes
+    if (isUserRoute && event.locals.isAdmin) {
+        throw redirect(307, "/admindash"); // Redirect to the admin dashboard
+    }
+
     // Continue to resolve the request if authenticated and authorized
     return resolve(event);
 };
