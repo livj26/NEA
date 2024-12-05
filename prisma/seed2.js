@@ -20,14 +20,14 @@ async function main() {
             employeeid: employeeId,
         },
         {
-            startTime: new Date("2024-11-05T08:00:00"), // November 5, 2024, 8:00 AM
-            endTime: new Date("2024-11-05T16:00:00"),   // November 5, 2024, 4:00 PM
+            startTime: new Date("2024-12-22T08:00:00"), // November 5, 2024, 8:00 AM
+            endTime: new Date("2024-12-22T16:00:00"),   // November 5, 2024, 4:00 PM
             date: new Date("2024-11-05"),
             employeeid: employeeId,
         },
         {
-            startTime: new Date("2024-11-10T12:00:00"), // November 10, 2024, 12:00 PM
-            endTime: new Date("2024-11-10T20:00:00"),   // November 10, 2024, 8:00 PM
+            startTime: new Date("2024-12-19T12:00:00"), // November 10, 2024, 12:00 PM
+            endTime: new Date("2024-12-19T20:00:00"),   // November 10, 2024, 8:00 PM
             date: new Date("2024-11-10"),
             employeeid: employeeId,
         }
