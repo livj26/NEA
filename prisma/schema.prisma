@@ -19,6 +19,7 @@ model employees {
   isAdmin Boolean
   shifts     shifts[]
   sessions   sessions[]
+  availability availability[]
 }
 
 model shifts {
@@ -36,5 +37,13 @@ model sessions {
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   employeeid Int
+  employee   employees @relation(fields: [employeeid], references: [employeeid])
+}
+
+model availability {
+  id         Int       @id @default(autoincrement()) 
+  startDate  DateTime  
+  endDate    DateTime  
+  employeeid Int       
   employee   employees @relation(fields: [employeeid], references: [employeeid])
 }

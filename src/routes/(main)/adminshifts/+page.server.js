@@ -10,8 +10,8 @@ export async function load({ locals, url }) {
 
     // Check if the user is an admin
     if (!isAdmin) {
-        // Redirect to login if not an admin
-        throw redirect(307, '/login');
+        // Redirect to dashboard if not an admin
+        throw redirect(307, '/dashboard');
     }
 
     // Get today's date for filtering

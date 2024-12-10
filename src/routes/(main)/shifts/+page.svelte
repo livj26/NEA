@@ -25,7 +25,7 @@
 <select id="filter" on:change={updateFilter} bind:value={filterOption}>
     <option value="upcoming">Upcoming Shifts</option>
     <option value="past">Past Shifts</option>
-</select>
+</select> 
 
 <!-- Display filtered shifts -->
 {#if shifts && shifts.length > 0}

@@ -8,6 +8,7 @@ export async function load({ locals, url }) {
     const filterOption = url.searchParams.get("filter") || "upcoming"; 
     if (!employeeid) {
         // Redirect to login if no employee is authenticated
+        
         throw redirect(307, '/login');
     }
 

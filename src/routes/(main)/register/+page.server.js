@@ -20,7 +20,8 @@ export const actions = {
             throw redirect(302, `/register?error=${encodeURIComponent("Email already in use")}`);
         }
         // Hash the password before storing
-        const hashedPassword = await bcrypt.hash(password, 10);
+        const hashedPassword = await bcrypt.hash(password,10);
+
         console.log('Hashed Password:', hashedPassword);
         // Create the new user
         await prisma.employees.create({
