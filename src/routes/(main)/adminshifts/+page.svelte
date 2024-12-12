@@ -21,7 +21,7 @@
 <nav>
     <ul>
       <li><a href="/">ROTASMART</a></li>
-      <li><a href="/availability">Availability</a></li>
+      <li><a href="/rota">Rota</a></li>
     </ul>
 </nav>
 <h1>Admin Shifts</h1>

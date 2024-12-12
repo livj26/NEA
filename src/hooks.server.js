@@ -3,7 +3,7 @@ import { redirect } from "@sveltejs/kit";
 
 export const handle = async ({ event, resolve }) => {
     const auth = await authenticate(event.cookies);
-
+    
     event.locals.employeeid = auth ? auth.employeeid : null;
     event.locals.isAdmin = auth ? auth.isAdmin : false;
     console.log("Hooks:", event.locals);
