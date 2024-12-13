@@ -2,11 +2,11 @@
     import { page } from '$app/stores';
 
     // Reactive data from server
-    $: employees = $page.data.employees;
+    $: employees = $page.data?.employees || []; // Default to an empty array
     let selectedEmployeeId = "";
 
     // Compute selected employee's details
-    $: selectedEmployee = employees.find(e => e.employeeid === parseInt(selectedEmployeeId));
+    $: selectedEmployee = employees.find(e => e.employeeid === parseInt(selectedEmployeeId)) || null;
 
     function updateEmployeeSelection(event) {
         selectedEmployeeId = event.target.value;
