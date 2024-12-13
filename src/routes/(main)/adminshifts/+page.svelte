@@ -21,7 +21,10 @@
 <nav>
     <ul>
       <li><a href="/">ROTASMART</a></li>
+      <li><a href="/admindash">Admin Dashboard</a></li>
       <li><a href="/rota">Rota</a></li>
+      <li><a href="/editdb">Edit Database</a></li>
+      <li><a href="/employees">View Employees</a></li>
     </ul>
 </nav>
 <h1>Admin Shifts</h1>

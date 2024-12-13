@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { redirect, fail } from "@sveltejs/kit";
+import { redirect } from "@sveltejs/kit";
 
 const prisma = new PrismaClient();
 
@@ -35,26 +35,23 @@ export const actions = {
         const endDateTime = new Date(`${date}T${endTime}`);
 
         if (startDateTime >= endDateTime) {
-            return fail(400, { error: "Start time must be before end time." });
+            throw redirect(302, `/rota?error=${encodeURIComponent("Start time must be before end time")}` );
         }
-
-        try {
-            // Insert shift into the database
-            await prisma.shifts.create({
-                data: {
-                    employeeid,
-                    date: new Date(date),
-                    startTime: startDateTime,
-                    endTime: endDateTime
-                }
-            });
-            console.log("Shift added successfully");
-            return {
-                success: "Shift successfully added!"
-            };
-        } catch (error) {
-            console.error("Error creating shift:", error);
-            return fail(500, { error: "An error occurred while adding the shift. Please try again." });
+        const result = await prisma.shifts.create({
+            data: {
+                employeeid,
+                date: new Date(date),
+                startTime: startDateTime,
+                endTime: endDateTime
+            }
+        });
+        
+        if (result) {
+            console.log("Shift added successfully,", result);
+            throw redirect(302, `/rota?success=${encodeURIComponent('Shift successfully added')}`);
+        } else {
+            console.error("Error creating shift");
+            throw redirect(302, `/rota?error=${encodeURIComponent("Error adding shift")}`);
         }
     }
 };

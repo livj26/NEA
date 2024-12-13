@@ -1,9 +1,15 @@
 <script>
     import { page } from '$app/stores';
+    import { onMount } from 'svelte';
+    
+    let errorMessage = '';
+    let successMessage = '';
 
-    // Access query parameters from the URL
-    $: error = $page.url.searchParams.get('error');
-    $: success = $page.url.searchParams.get('success');
+    onMount(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        errorMessage = urlParams.get('error') || '';
+        successMessage = urlParams.get('success') || '';
+    })
 
     // Access employees data from the server-side load function
     $: employees = $page.data.employees;
@@ -12,7 +18,10 @@
 <nav>
     <ul>
         <li><a href="/">ROTASMART</a></li>
+        <li><a href="/admindash">Admin Dashboard</a></li>
         <li><a href="/adminshifts">Shifts</a></li>
+        <li><a href="/editdb">Edit Database</a></li>
+        <li><a href="/employees">View Employees</a></li>
     </ul>
 </nav>
 
@@ -37,10 +46,10 @@
     </form>
 </div>
 
-{#if error}
-    <p class="error">{error}</p>
+{#if errorMessage}
+    <p class="error">{errorMessage}</p>
 {/if}
 
-{#if success}
-    <p class="success">{success}</p>
+{#if successMessage}
+    <p class="success">{successMessage}</p>
 {/if}
