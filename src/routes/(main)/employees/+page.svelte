@@ -1,15 +1,14 @@
 <script>
     import { page } from '$app/stores';
 
-    // Reactive data from server
-    $: employees = $page.data?.employees || []; // Default to an empty array
-    let selectedEmployeeId = "";
+    // Reactive values from server data
+    $: employeeFilter = $page.data.employeeFilter;
+    $: employees = $page.data.employees;
 
-    // Compute selected employee's details
-    $: selectedEmployee = employees.find(e => e.employeeid === parseInt(selectedEmployeeId)) || null;
-
-    function updateEmployeeSelection(event) {
-        selectedEmployeeId = event.target.value;
+    // Function to update the filter
+    function updateEmployeeFilter(event) {
+        const selectedEmployee = event.target.value;
+        window.location.search = `?employee=${selectedEmployee}`;
     }
 </script>
 
@@ -18,15 +17,16 @@
         <li><a href="/">ROTASMART</a></li>
         <li><a href="/admindash">Admin Dashboard</a></li>
         <li><a href="/rota">Rota</a></li>
+        <li><a href="/shifts">Shifts</a></li>
         <li><a href="/editdb">Edit Database</a></li>
     </ul>
 </nav>
 
-<h1>Employee Information</h1>
+<h1>Employees</h1>
 
-<!-- Dropdown menu for selecting an employee -->
-<label for="employee">Select an employee:</label>
-<select id="employee" on:change={updateEmployeeSelection} bind:value={selectedEmployeeId}>
+<!-- Dropdown menu for filtering employees -->
+<label for="employee">Filter by Employee:</label>
+<select id="employee" on:change={updateEmployeeFilter} bind:value={employeeFilter}>
     <option value="">All Employees</option>
     {#each employees as employee}
         <option value={employee.employeeid}>
@@ -35,18 +35,21 @@
     {/each}
 </select>
 
-<!-- Display selected employee details -->
-{#if selectedEmployee}
-    <h2>Employee Details</h2>
-    <p><strong>Full Name:</strong> {selectedEmployee.forename} {selectedEmployee.surname}</p>
-    <p><strong>Email:</strong> {selectedEmployee.email}</p>
-    <p><strong>Admin:</strong> {selectedEmployee.isAdmin ? 'Yes' : 'No'}</p>
-{:else if selectedEmployeeId === ""}
-    <p>Select an employee to view their details.</p>
+<!-- Display employee details -->
+{#if employees && employees.length > 0}
+    <ul>
+        {#each employees as employee}
+            <li>
+                <strong>Employee ID:</strong> {employee.employeeid}
+                <br>
+                <strong>Forename:</strong> {employee.forename}
+                <br>
+                <strong>Surname:</strong> {employee.surname}
+                <br>
+                <strong>Email:</strong> {employee.email}
+            </li>
+        {/each}
+    </ul>
 {:else}
-    <p>No employee found with the selected ID.</p>
+    <p>No employees found.</p>
 {/if}
-
-<form method="post" action="/logout">
-    <button type="submit">Logout</button>
-</form>
