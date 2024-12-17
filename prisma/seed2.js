@@ -26,8 +26,8 @@ async function main() {
             employeeid: employeeId,
         },
         {
-            startTime: new Date("2024-12-19T12:00:00"), // November 10, 2024, 12:00 PM
-            endTime: new Date("2024-12-19T20:00:00"),   // November 10, 2024, 8:00 PM
+            startTime: new Date("2024-12-19T12:00:00"), 
+            endTime: new Date("2024-12-19T20:00:00"),   
             date: new Date("2024-12-19"),
             employeeid: employeeId,
         }

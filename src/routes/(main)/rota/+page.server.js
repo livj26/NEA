@@ -1,5 +1,5 @@
 import { PrismaClient } from "@prisma/client";
-import { redirect } from "@sveltejs/kit";
+import { redirect, fail } from "@sveltejs/kit";
 
 const prisma = new PrismaClient();
 
@@ -35,8 +35,26 @@ export const actions = {
         const endDateTime = new Date(`${date}T${endTime}`);
 
         if (startDateTime >= endDateTime) {
-            throw redirect(302, `/rota?error=${encodeURIComponent("Start time must be before end time")}` );
+            throw redirect(302, `/rota?error=${encodeURIComponent("Start time must be before end time")}`);
         }
+
+        // Check for conflicting availability
+        const conflictingAvailability = await prisma.availability.findFirst({
+            where: {
+                employeeid,
+                OR: [
+                    { startDate: { lte: endDateTime }, endDate: { gte: startDateTime } }, // Full overlap
+                    { startDate: { lte: startDateTime }, endDate: { gte: startDateTime } }, // Start overlaps
+                    { startDate: { lte: endDateTime }, endDate: { gte: endDateTime } }, // End overlaps
+                ]
+            }
+        });
+
+        if (conflictingAvailability) {
+            throw redirect(302, `/rota?error=${encodeURIComponent("Employee is unavailable during the selected time.")}`);
+        }
+
+        // Create the shift
         const result = await prisma.shifts.create({
             data: {
                 employeeid,
@@ -45,7 +63,7 @@ export const actions = {
                 endTime: endDateTime
             }
         });
-        
+
         if (result) {
             console.log("Shift added successfully,", result);
             throw redirect(302, `/rota?success=${encodeURIComponent('Shift successfully added')}`);
