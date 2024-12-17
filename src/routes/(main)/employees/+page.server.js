@@ -1,10 +1,10 @@
 import { PrismaClient } from '@prisma/client';
-import { redirect } from '@sveltejs/kit';
+import { redirect, fail } from '@sveltejs/kit';
 
 const prisma = new PrismaClient();
 
 export async function load({ locals, url }) {
-    const { employeeid, isAdmin } = locals;
+    const { isAdmin } = locals;
     const employeeFilter = url.searchParams.get('employee') || 'all';
 
     // Check if the user is an admin, otherwise redirect
@@ -25,7 +25,7 @@ export async function load({ locals, url }) {
 
     // Query the employees with the filter
     const employees = await prisma.employees.findMany({
-        where, 
+        where,
         select: {
             employeeid: true,
             forename: true,
@@ -34,23 +34,26 @@ export async function load({ locals, url }) {
         }
     });
 
-    return { employees };
+    return { employees, employeeFilter };
 }
 
 export const actions = {
-    delete: async ({ request }) => {
+    deleteEmployee: async ({ request }) => {
         const formData = await request.formData();
-        const employeeId = formData.get('employeeid');
+        const employeeid = parseInt(formData.get('employeeid'), 10);
 
-        if (!employeeId) {
-            throw new Error('Employee ID is required');
+        if (!employeeid) {
+            return fail(400, { error: 'Employee ID is required for deletion.' });
         }
 
-        // Delete the employee from the database
-        await prisma.employees.delete({
-            where: { employeeid: parseInt(employeeId, 10) },
-        });
-
-        return { success: true };
+        try {
+            await prisma.employees.delete({
+                where: { employeeid }
+            });
+            return { success: true, message: 'Employee deleted successfully' };
+        } catch (err) {
+            console.error('Error deleting employee:', err);
+            return fail(500, { error: 'Failed to delete employee.' });
+        }
     }
 };

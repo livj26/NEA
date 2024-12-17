@@ -4,32 +4,6 @@
     // Reactive values from server data
     $: employeeFilter = $page.data.employeeFilter;
     $: employees = $page.data.employees;
-
-    // Function to update the filter
-    function updateEmployeeFilter(event) {
-        const selectedEmployee = event.target.value;
-        window.location.search = `?employee=${selectedEmployee}`;
-    }
-
-    // Function to handle employee deletion
-    async function deleteEmployee(employeeId) {
-        if (confirm('Are you sure you want to delete this employee?')) {
-            const formData = new FormData();
-            formData.append('employeeid', employeeId);
-
-            const response = await fetch('/delete', {
-                method: 'POST',
-                body: formData
-            });
-
-            if (response.ok) {
-                alert('Employee deleted successfully');
-                window.location.reload(); // Refresh the page to update the employee list
-            } else {
-                alert('Failed to delete employee');
-            }
-        }
-    }
 </script>
 
 <nav>
@@ -46,7 +20,7 @@
 
 <!-- Dropdown menu for filtering employees -->
 <label for="employee">Filter by Employee:</label>
-<select id="employee" on:change={updateEmployeeFilter} bind:value={employeeFilter}>
+<select id="employee" on:change={(e) => (window.location.search = `?employee=${e.target.value}`)} bind:value={employeeFilter}>
     <option value="all">All Employees</option>
     {#each employees as employee}
         <option value={employee.employeeid}>
@@ -54,6 +28,20 @@
         </option>
     {/each}
 </select>
+
+<!-- Form for deleting an employee -->
+<form method="POST" action="?/deleteEmployee">
+    <label for="delete">Select an Employee to Delete:</label>
+    <select id="delete" name="employeeid" required>
+        <option value="" disabled selected>Choose an employee</option>
+        {#each employees as employee}
+            <option value={employee.employeeid}>
+                {employee.forename} {employee.surname}
+            </option>
+        {/each}
+    </select>
+    <button type="submit">Delete Employee</button>
+</form>
 
 <!-- Display employee details -->
 {#if employees && employees.length > 0}
@@ -67,8 +55,6 @@
                 <strong>Surname:</strong> {employee.surname}
                 <br>
                 <strong>Email:</strong> {employee.email}
-                <br>
-                <button on:click={() => deleteEmployee(employee.employeeid)}>Delete</button>
             </li>
         {/each}
     </ul>
