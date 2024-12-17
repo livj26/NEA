@@ -10,6 +10,26 @@
         const selectedEmployee = event.target.value;
         window.location.search = `?employee=${selectedEmployee}`;
     }
+
+    // Function to handle employee deletion
+    async function deleteEmployee(employeeId) {
+        if (confirm('Are you sure you want to delete this employee?')) {
+            const formData = new FormData();
+            formData.append('employeeid', employeeId);
+
+            const response = await fetch('/delete', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (response.ok) {
+                alert('Employee deleted successfully');
+                window.location.reload(); // Refresh the page to update the employee list
+            } else {
+                alert('Failed to delete employee');
+            }
+        }
+    }
 </script>
 
 <nav>
@@ -27,7 +47,7 @@
 <!-- Dropdown menu for filtering employees -->
 <label for="employee">Filter by Employee:</label>
 <select id="employee" on:change={updateEmployeeFilter} bind:value={employeeFilter}>
-    <option value="">All Employees</option>
+    <option value="all">All Employees</option>
     {#each employees as employee}
         <option value={employee.employeeid}>
             {employee.forename} {employee.surname}
@@ -47,6 +67,8 @@
                 <strong>Surname:</strong> {employee.surname}
                 <br>
                 <strong>Email:</strong> {employee.email}
+                <br>
+                <button on:click={() => deleteEmployee(employee.employeeid)}>Delete</button>
             </li>
         {/each}
     </ul>

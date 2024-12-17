@@ -25,7 +25,7 @@ export async function load({ locals, url }) {
 
     // Query the employees with the filter
     const employees = await prisma.employees.findMany({
-        where,  // Pass the `where` filter here
+        where, 
         select: {
             employeeid: true,
             forename: true,
@@ -36,3 +36,21 @@ export async function load({ locals, url }) {
 
     return { employees };
 }
+
+export const actions = {
+    delete: async ({ request }) => {
+        const formData = await request.formData();
+        const employeeId = formData.get('employeeid');
+
+        if (!employeeId) {
+            throw new Error('Employee ID is required');
+        }
+
+        // Delete the employee from the database
+        await prisma.employees.delete({
+            where: { employeeid: parseInt(employeeId, 10) },
+        });
+
+        return { success: true };
+    }
+};
