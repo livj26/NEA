@@ -33,9 +33,27 @@ export const actions = {
 
         const startDateTime = new Date(`${date}T${startTime}`);
         const endDateTime = new Date(`${date}T${endTime}`);
+        const currentDate = new Date();
+
+        // Check if the date is in the past
+        if (startDateTime < currentDate) {
+            throw redirect(302, `/rota?error=${encodeURIComponent("Date cannot be in the past.")}`);
+        }
 
         if (startDateTime >= endDateTime) {
             throw redirect(302, `/rota?error=${encodeURIComponent("Start time must be before end time")}`);
+        }
+
+        // Check if the employee already has a shift on the same day
+        const existingShift = await prisma.shifts.findFirst({
+            where: {
+                employeeid,
+                date: new Date(date),
+            }
+        });
+
+        if (existingShift) {
+            throw redirect(302, `/rota?error=${encodeURIComponent("Employee already has a shift on this day.")}`);
         }
 
         // Check for conflicting availability
@@ -52,7 +70,7 @@ export const actions = {
 
         if (conflictingAvailability) {
             throw redirect(302, `/rota?error=${encodeURIComponent("Employee is unavailable during the selected time.")}`);
-        }
+        } 
 
         // Create the shift
         const result = await prisma.shifts.create({

@@ -31,9 +31,11 @@ export async function load({ locals, url }) {
             forename: true,
             surname: true,
             email: true,
+            isAdmin: true, 
         }
     });
 
+    // Return the data including the isAdmin field
     return { employees, employeeFilter };
 }
 
@@ -43,17 +45,30 @@ export const actions = {
         const employeeid = parseInt(formData.get('employeeid'), 10);
 
         if (!employeeid) {
+            console.error('Error: Employee ID is required for deletion.');
             return fail(400, { error: 'Employee ID is required for deletion.' });
         }
 
-        try {
-            await prisma.employees.delete({
-                where: { employeeid }
+        // Check if the employee exists before attempting to delete
+        const employee = await prisma.employees.findUnique({
+            where: { employeeid },
+        });
+
+        if (!employee) {
+            console.error('Error: Employee not found.');
+            return fail(404, { error: 'Employee not found.' });
+        }
+
+        // Perform the delete operation
+        const result = await prisma.employees.delete({
+              where: { employeeid }
             });
-            return { success: true, message: 'Employee deleted successfully' };
-        } catch (err) {
-            console.error('Error deleting employee:', err);
+
+        if (!result) {
+            console.error('Error: Failed to delete employee.');
             return fail(500, { error: 'Failed to delete employee.' });
         }
-    }
+
+        return { success: true, message: 'Employee deleted successfully' };
+    },
 };

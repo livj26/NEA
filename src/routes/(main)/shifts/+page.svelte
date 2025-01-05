@@ -14,7 +14,8 @@
 
 <nav>
     <ul>
-      <li><a href="/">ROTASMART</a></li>
+        <li><h1>ROTASMART</h1></li>
+      <li><a href="/dashboard">Dashboard</a></li>
       <li><a href="/availability">Availability</a></li>
     </ul>
   </nav>

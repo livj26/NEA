@@ -8,11 +8,10 @@
 
 <nav>
     <ul>
-        <li><a href="/">ROTASMART</a></li>
+        <li><h1>ROTASMART</h1></li>
         <li><a href="/admindash">Admin Dashboard</a></li>
-        <li><a href="/rota">Rota</a></li>
+        <li><a href="/rota">Create Rota</a></li>
         <li><a href="/shifts">Shifts</a></li>
-        <li><a href="/editdb">Edit Database</a></li>
     </ul>
 </nav>
 
@@ -55,6 +54,8 @@
                 <strong>Surname:</strong> {employee.surname}
                 <br>
                 <strong>Email:</strong> {employee.email}
+                <br>
+                <strong>Admin:</strong> {employee.isAdmin ? 'Yes' : 'No'}
             </li>
         {/each}
     </ul>

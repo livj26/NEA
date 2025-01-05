@@ -12,7 +12,7 @@ export const handle = async ({ event, resolve }) => {
     const isAdminRoute = ['/rota', '/editdb', '/admindash', 'adminshifts', 'employees'].some(path =>
         event.url.pathname.startsWith(path)
     );
-    const isUserRoute = ['/dashboard', '/shifts', '/availability'].some(path =>
+    const isUserRoute = ['/dashboard', '/shift', '/availability'].some(path =>
         event.url.pathname.startsWith(path)
     );
 

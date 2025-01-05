@@ -17,6 +17,10 @@ export const actions = {
             throw redirect(302, `/availability?error=${encodeURIComponent("Invalid date format. Please ensure the dates are correct.")}`);
         }
 
+        if (new Date(startDate) > new Date(endDate)) {
+            throw redirect(302, `/availability?error=${encodeURIComponent("Start date must be before the end date. Please adjust the dates.")}`);
+        }        
+
         // Check if there are any shifts for the user in the selected range
         const conflictingShifts = await prisma.shifts.findMany({
             where: {
@@ -69,8 +73,7 @@ export const actions = {
         
         console.log(availabilityData);
 
-        // Create availability records in the database
-        await prisma.availability.createMany({
+        await prisma.availability.createMany({ 
             data: availabilityData
         });
 
@@ -80,3 +83,5 @@ export const actions = {
         throw redirect(302, `/availability?success=${encodeURIComponent("Time off booked successfully!")}`);
     }
 };
+
+   
